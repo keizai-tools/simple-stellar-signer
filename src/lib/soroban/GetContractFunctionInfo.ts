@@ -1,4 +1,4 @@
-import { Address, Contract, SorobanRpc, StrKey, xdr } from '@stellar/stellar-sdk';
+import { Address, Contract, StrKey, rpc, xdr } from '@stellar/stellar-sdk';
 import { Buffer } from 'buffer';
 
 import type { ContractFunctionInfo, InputInfo } from './ContractFunctionInfo.interface';
@@ -95,7 +95,7 @@ async function getContractData(contractAddress: string) {
         return null;
     }
 
-    const ledgerEntry = ledgerEntries.entries[0] as SorobanRpc.Api.LedgerEntryResult;
+    const ledgerEntry = ledgerEntries.entries[0] as rpc.Api.LedgerEntryResult;
     const codeData = ledgerEntry.val.contractData();
     const wasmIdLedger = ledgerEntry.lastModifiedLedgerSeq;
     const contractInstance = codeData.val().instance();
@@ -117,7 +117,7 @@ async function getContractCode(wasmId: Buffer): Promise<{ wasmCode: string; wasm
         return null;
     }
 
-    const ledgerEntry = ledgerEntries.entries[0] as SorobanRpc.Api.LedgerEntryResult;
+    const ledgerEntry = ledgerEntries.entries[0] as rpc.Api.LedgerEntryResult;
     const wasmCodeLedger = ledgerEntry.lastModifiedLedgerSeq as number;
     const codeEntry = ledgerEntry.val;
     const wasmCode = codeEntry.contractCode().code().toString('hex');
